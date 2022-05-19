@@ -9,12 +9,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 import io.javabrains.betterreads.connection.DataStaxAstraProperties;
+import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 
 /**
  * Main application class with main method that runs the Spring Boot app
  */
 
 @SpringBootApplication
+@EnableCassandraRepositories
 @EnableConfigurationProperties(DataStaxAstraProperties.class)
 public class BetterReadsApp {
 

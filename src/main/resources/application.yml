@@ -6,8 +6,8 @@ spring:
       client:
         registration:
           github:
-            client-id: Iv1.a9958b0f68563669
-            client-secret: 41655317cc2302b59792654751682e7e6e2817cd
+            client-id: 79741719a7602ad9045c
+            client-secret: 2f9ec89f9ad530f2da01b824054f7fee5cae398a
   data:
     cassandra:
       keyspace-name: main
