@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface BookRepository extends CassandraRepository<Book, String> {
     @AllowFiltering
-    List<Book> findByName(String name);
+    List<Book> findByAddress(String address);
 }
