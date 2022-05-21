@@ -17,6 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        System.out.println("the user that has login is: "+principal.getName());
             return "index";
     }
 
