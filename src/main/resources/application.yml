@@ -1,6 +1,6 @@
 spring:
   application:
-    name: betterreads
+    name: mestenagir
   security:
     oauth2:
       client:
@@ -8,27 +8,14 @@ spring:
           github:
             client-id: 79741719a7602ad9045c
             client-secret: 2f9ec89f9ad530f2da01b824054f7fee5cae398a
-  data:
-    cassandra:
-      keyspace-name: main
-      username: FBuqDMMcafBZvqFsRugvPjtr
-      password: We2_b8M6d-7huCqDnANw4,uiQ-dLaFx35Zz54suK8Y4g.cIgzkYqdK88NBkvD9PWeieRSQUokFRP1q_aA7y4iM4qguZ,5wPoEL,GxrtkBBfgr8ohsu6bp-gn8u7mhyTL
-      schema-action: create-if-not-exists
-      request:
-        timeout: 10s
-      connection:
-        connect-timeout: 10s
-        init-query-timeout: 10s
-
-
-
-datastax.astra:
-    secure-connect-bundle: secure-connect.zip
-
-
-astra.db:
-    id: 38b2a48b-7db4-472f-a7e0-7f61541f5d1f-1
-    region: europe-west1
-    keyspace: main
-    application.token: AstraCS:FBuqDMMcafBZvqFsRugvPjtr:0882675a39e9bcc966a52243facb9e45107dabc9e09f200a7277a1bcf452c43b
-
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: true
+    #hibernate.ddl-auto: update
+  datasource.url: jdbc:h2:file:~/BOOKSTORE;AUTO_SERVER=true
+  h2.console:
+    enabled: true
+    path: /h2-console
+  mvc.format:
+    date-time: iso
+    date: iso
