@@ -108,7 +108,8 @@
         Add book
       </button>
 
-      <div class="card mb-3" style="max-width: 540px;" th:each="book: ${books}">
+      <div th:switch="${isEmpty}">
+        <div th:case="${false}" class="card mb-3" style="max-width: 540px;" th:each="book: ${books}">
         <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
@@ -134,6 +135,12 @@
           </div>
         </div>
 
+      </div>
+        <div th:case="${true}" class="d-flex align-items-center justify-content-center" style="height:500px">
+          <div class="p-2">
+            <h4>There is no book, add book to get review</h4>
+          </div>
+        </div>
       </div>
     </section>
   </div>

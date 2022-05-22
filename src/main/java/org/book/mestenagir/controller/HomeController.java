@@ -35,7 +35,7 @@ public class HomeController {
 
         //return all the book of the user.
         var myBooks = bookStoreService.getMyBook(username);
-        model.addAttribute("isEmpty",(myBooks.size()!=0));
+        model.addAttribute("isEmpty",(myBooks.size()==0));
         model.addAttribute("books",myBooks);
         return "home";
     }
