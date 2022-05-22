@@ -16,21 +16,97 @@
 </head>
 
 <body>
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-bottom: 20px">
+  <div class="container" style="padding:10">
+<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-bottom: 20px">-->
+<!--      <div class="container-fluid">-->
+<!--        <a class="navbar-brand" href="/">መስተናግር</a>-->
+<!--      </div>-->
+<!--    </nav>-->
+<!--    <div th:insert="components/book-search :: search-panel"></div>-->
+  <br/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">መስተናግር</a>
-
+        <a class="navbar-brand "  href="/"><h1>መስተናግር</h1></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Give Review</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Setting
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Profile Name</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
       </div>
     </nav>
 
+    <!-- Button trigger modal -->
 
-    <div th:insert="components/book-search :: search-panel"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Book</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <form>
+              <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="3"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Cover Picture</label>
+                <input type="file" class="form-control" itemtype="image/*">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Book</label>
+                <input type="file" class="form-control">
+              </div>
+
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="publishedOrNot">
+                <label class="form-check-label" for="publishedOrNot">Book is Published</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <section class="content">
-
-
-      <h1>My Books</h1>
+      <h3>My Books</h3>
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addBookModal">
+        Add book
+      </button>
 
       <div class="card mb-3" style="max-width: 540px;" th:each="book: ${books}">
         <div class="card mb-3">

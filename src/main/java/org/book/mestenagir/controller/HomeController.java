@@ -1,4 +1,5 @@
 package org.book.mestenagir.controller;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,14 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        System.out.println("the user that has login is: "+principal.getName());
+        if (principal == null || principal.getAttribute("login") == null) {
             return "index";
+        }
+
+        Map<String, Object> userDetails = principal.getAttributes();
+
+
+
+        return "home";
     }
-
-
 }

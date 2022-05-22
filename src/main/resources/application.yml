@@ -22,3 +22,4 @@ spring:
   mvc.format:
     date-time: iso
     date: iso
+  thymeleaf.cache: false
