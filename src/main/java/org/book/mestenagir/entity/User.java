@@ -3,6 +3,7 @@ package org.book.mestenagir.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,11 @@ public class User {
 
     String username;
 
+    String password;
+
+    String role;
+
     @OneToMany
-    List<UserBook> myBooks;
+    List<UserBook> myBooks = new ArrayList<>();
 
 }
