@@ -2,13 +2,16 @@ package org.book.mestenagir.configuration;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
@@ -21,41 +24,35 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+        auth.inMemoryAuthentication()
+                .withUser("john").password(passwordEncoder().encode("1234")).roles("USER")
+                .and()
+                .withUser("foo").password(passwordEncoder().encode("1234")).roles("USER")
+                .and()
+                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+//        auth.userDetailsService(userDetailService)
+//                .passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-
-        http
-                .headers().frameOptions().sameOrigin().and()
-                .authorizeRequests()
-                .mvcMatchers("/").permitAll()
-                .mvcMatchers("/search").permitAll()
-                .anyRequest()
-                .permitAll()
+                http.httpBasic().disable()
+                .csrf().ignoringAntMatchers("/h2-console/**")
                 .and()
-                .formLogin(e->{
-                    e.loginPage("/login")
-                            .successForwardUrl("/home")
-                            .passwordParameter("password")
-                            .usernameParameter("username")
-                            .failureForwardUrl("/")
-                            .permitAll();
-                })
-                .exceptionHandling(e -> e
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                )
-                .csrf(c -> c
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                )
-                .logout(l -> l
-                        .logoutSuccessUrl("/").permitAll()
-                )
-                .oauth2Login();
-        // @formatter:on
+                .headers().frameOptions().sameOrigin() // for H2 Console
+                .and()
+                .authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/login*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                ;
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
 }
