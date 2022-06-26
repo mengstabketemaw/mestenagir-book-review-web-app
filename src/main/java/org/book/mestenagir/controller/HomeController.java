@@ -1,48 +1,38 @@
 package org.book.mestenagir.controller;
-import java.util.Map;
 
-import org.book.mestenagir.entity.UserBook;
+import org.book.mestenagir.entity.Book;
+import org.book.mestenagir.repository.BookRepository;
 import org.book.mestenagir.service.BookStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
 public class HomeController {
     private final Logger logger = LoggerFactory.getLogger(HomeController.class.getName());
-    private final BookStoreService bookStoreService;
-
-    public HomeController(BookStoreService bookStoreService) {
-        this.bookStoreService = bookStoreService;
+    private final BookRepository bookRepository;
+    public HomeController(BookStoreService bookStoreService, BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/")
-    public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        if (principal == null || principal.getAttribute("login") == null) {
-            return "index";
-        }
-        //for now, this only work for GitHub authentication.
-        Map<String, Object> userDetails = principal.getAttributes();
-        String username = (String) userDetails.get("login");
-        logger.info("Authenticated user has been Logged in "+username);
-
-        //return all the book of the user.
-        var myBooks = bookStoreService.getMyBook(username);
-        model.addAttribute("isEmpty",(myBooks.size()==0));
-        model.addAttribute("books",myBooks);
-        return "home";
-    }
-
-    @PostMapping("/addbook")
-    public ResponseEntity<Void> addBook(@RequestParam String title, @RequestParam String description, @RequestPart MultipartFile coverImage, @RequestPart MultipartFile bookFile, @RequestParam boolean isPublished){
-        bookStoreService.saveMyBook(title,description,coverImage,bookFile,isPublished);
-        return ResponseEntity.ok().build();
+    public String home(Model model) {
+        Page<Book> pageBooks = bookRepository.findAll(PageRequest.of(1, 10));
+        List<Book> books = pageBooks.get()
+                .collect(Collectors.toList());
+        if(books.size()==0)
+            return "book-not-found";
+        books.forEach(book-> book.setTitle(book.getTitle().replace(".pdf",".png")));
+        model.addAttribute("searchResults", books);
+        return "search";
     }
 }

@@ -20,11 +20,5 @@ public class Book {
 
     String category;
 
-    @Enumerated(EnumType.STRING)
-    BookSources source;
-
     String address;
-
-    String author;
-
 }

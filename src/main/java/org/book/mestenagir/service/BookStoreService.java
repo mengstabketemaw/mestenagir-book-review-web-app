@@ -1,9 +1,6 @@
 package org.book.mestenagir.service;
 
-import org.book.mestenagir.entity.User;
-import org.book.mestenagir.entity.UserBook;
 import org.book.mestenagir.repository.BookRepository;
-import org.book.mestenagir.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

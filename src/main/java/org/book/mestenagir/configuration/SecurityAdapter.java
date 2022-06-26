@@ -19,19 +19,10 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    CustomUserDetailService userDetailService;
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("john").password(passwordEncoder().encode("1234")).roles("USER")
-                .and()
-                .withUser("foo").password(passwordEncoder().encode("1234")).roles("USER")
-                .and()
                 .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
-//        auth.userDetailsService(userDetailService)
-//                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -47,7 +38,6 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
                 ;
     }
     @Bean

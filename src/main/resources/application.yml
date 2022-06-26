@@ -1,16 +1,6 @@
 spring:
   application:
     name: mestenagir
-  security:
-    oauth2:
-      client:
-        registration:
-          facebook:
-            client-id: 3197888027157556
-            client-secret: dec55e2f008a2d8c59f07dd67e5931de
-          github:
-            client-id: 79741719a7602ad9045c
-            client-secret: 2f9ec89f9ad530f2da01b824054f7fee5cae398a
   jpa:
     defer-datasource-initialization: true
     generate-ddl: true
